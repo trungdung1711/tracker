@@ -77,3 +77,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   sendResponse({ status: "ok" });
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "get_sessions") {
+    sendResponse(sessions);
+  }
+});
