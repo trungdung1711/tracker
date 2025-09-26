@@ -1,18 +1,20 @@
 import { Session } from "./types";
+import { login } from "../auth/auth";
+
 
 function formatDuration(ms: number): string {
-  const sec = Math.floor(ms / 1000);
-  const min = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${min}m ${s}s`;
+	const sec = Math.floor(ms / 1000);
+	const min = Math.floor(sec / 60);
+	const s = sec % 60;
+	return `${min}m ${s}s`;
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  // Get all finished sessions from storage
-  const { interactions } = await chrome.storage.local.get({ interactions: [] });
 
-  const container = document.getElementById("session-list")!;
-  container.innerHTML = "";
+document.addEventListener("DOMContentLoaded", async () => {
+	const { interactions } = await chrome.storage.local.get({ interactions: [] });
+
+	const container = document.getElementById("session-list")!;
+	container.innerHTML = "";
 
   (interactions as Session[]).forEach((s, index) => {
     const el = document.createElement("div");
@@ -29,7 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div>Highlights: ${s.highlights.length}</div>
     `;
 
-    // Details
     const details = document.createElement("div");
     details.className = "session-details";
 
@@ -58,4 +59,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     el.appendChild(details);
     container.appendChild(el);
   });
+});
+
+const loginBtn = document.getElementById("login-button") as HTMLButtonElement;
+const statusText = document.getElementById("status") as HTMLParagraphElement;
+
+loginBtn.addEventListener("click", async () => {
+	statusText.textContent = "Opening Keycloak login...";
+	try {
+		await login();
+		statusText.textContent = "Login successful!";
+	} catch (err) {
+		console.error(err);
+		statusText.textContent = "Login failed. See console.";
+	}
 });

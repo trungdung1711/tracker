@@ -47,7 +47,7 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
     chrome.storage.local.get({ interactions: [] }, (data) => {
       const updated = [...data.interactions, session];
       chrome.storage.local.set({ interactions: updated });
-      window.console.log("Saved final session:", session);
+      console.log("Saved final session:", session);
     });
 
     delete sessions[tabId];

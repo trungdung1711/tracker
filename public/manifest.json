@@ -3,7 +3,7 @@
   "name": "tracker",
   "version": "1.0",
   "description": "Track browsing data to recommend news and tweets for language learning.",
-  "permissions": ["tabs", "activeTab", "scripting", "storage"],
+  "permissions": ["tabs", "activeTab", "scripting", "storage", "identity"],
   "background": {
     "service_worker": "background.js"
   },

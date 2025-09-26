@@ -5,9 +5,9 @@ export default defineConfig({
     outDir: "dist",
     rollupOptions: {
       input: {
-        background: "src/background.ts",
-        content: "src/content.ts",
-        popup: "src/popup.ts"
+        background: "src/main/background.ts",
+        content: "src/main/content.ts",
+        popup: "src/main/popup.ts",
       },
       output: {
         entryFileNames: "[name].js"
