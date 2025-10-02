@@ -1,0 +1,26 @@
+{
+    "editor.tabSize": 4,
+
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+    "editor.formatOnSave": true,
+
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+
+    "eslint.workingDirectories": [
+        {
+            "mode": "auto"
+        }
+    ],
+    "eslint.nodePath": "./node_modules",
+
+    "editor.bracketPairColorization.enabled": true,
+
+    "editor.guides.bracketPairs": true,
+
+    "editor.guides.bracketPairsHorizontal": true,
+
+    "editor.guides.highlightActiveBracketPair": true
+}
