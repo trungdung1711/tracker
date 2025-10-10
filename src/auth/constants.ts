@@ -2,7 +2,8 @@ import { KeycloakConfig } from './types';
 
 export const REALM = 'salem';
 export const CLIENT_ID = 'tracker';
-export const URL = 'http://localhost:8080/realms/salem/protocol/openid-connect';
+export const URL =
+    'http://10.229.148.98:8080/realms/salem/protocol/openid-connect';
 export const SCOPE = 'openid profile email';
 
 export const KEYCLOAK_CONFIG: KeycloakConfig = {

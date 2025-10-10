@@ -79,10 +79,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             timestamp: Date.now(),
         });
     } else if (message.action === 'text_selected') {
-        sessions[tabId].highlights.push({
-            text: message.text,
-            timestamp: Date.now(),
-        });
+        // Avoid duplicate highlights
+        const existingTexts = sessions[tabId].highlights.map(h => h.text);
+        if (!existingTexts.includes(message.text)) {
+            sessions[tabId].highlights.push({
+                text: message.text,
+                timestamp: Date.now(),
+            });
+        }
     } else if (message.action === 'scroll_depth') {
         sessions[tabId].scrollDepth = Math.max(
             sessions[tabId].scrollDepth,

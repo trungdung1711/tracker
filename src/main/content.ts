@@ -12,29 +12,36 @@ chrome.runtime.sendMessage(
 );
 
 function setupTracking() {
-    // listen for click
-    // document.addEventListener('click', event => {
-    //     const target = event.target;
+    // listen for click - only count Ctrl+Click (opens new tab)
+    document.addEventListener('click', event => {
+        const target = event.target;
 
-    //     if (!(target instanceof Element)) return;
+        if (!(target instanceof Element)) return;
 
-    //     const link = target.closest('a');
-    //     if (link && link.href) {
-    //         chrome.runtime.sendMessage({
-    //             action: 'link_clicked',
-    //             url: link.href,
-    //         });
-    //     }
-    // });
+        const link = target.closest('a');
+        if (link && link.href) {
+            // Only count clicks that don't navigate away (Ctrl+Click, middle click, etc.)
+            if (event.ctrlKey || event.metaKey || event.button === 1) {
+                chrome.runtime.sendMessage({
+                    action: 'link_clicked',
+                    url: link.href,
+                });
+            }
+        }
+    });
 
-    // listen for mouse
+    // listen for text selection - capture final selected text only
     document.addEventListener('mouseup', () => {
         const selection = window.getSelection();
         if (selection) {
-            chrome.runtime.sendMessage({
-                action: 'text_selected',
-                text: selection.toString().trim(),
-            });
+            const text = selection.toString().trim();
+            // Only send meaningful highlights (at least 3 characters)
+            if (text.length >= 3) {
+                chrome.runtime.sendMessage({
+                    action: 'text_selected',
+                    text: text,
+                });
+            }
         }
     });
 

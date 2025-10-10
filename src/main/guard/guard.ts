@@ -23,7 +23,8 @@ class Guard {
     // configurable
     private _durationThreshold = 0.1;
     private _depthThreshold = 20;
-    private _highlightsThreshold = 3;
+    private _highlightsThreshold = 2;
+    private _minHighlightLength = 3;
 
     public isWhitelisted(url: string): boolean {
         const domain = new URL(url).hostname;
@@ -41,8 +42,11 @@ class Guard {
             return false;
         }
 
-        // highlights
-        if (session.highlights.length < this._highlightsThreshold) {
+        // highlights - check both quantity and quality
+        const validHighlights = session.highlights.filter(
+            h => h.text.trim().length >= this._minHighlightLength
+        );
+        if (validHighlights.length < this._highlightsThreshold) {
             return false;
         }
 
